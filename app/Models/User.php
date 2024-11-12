@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',  // Add role_id to mass assignment if it is managed directly
     ];
 
     /**
@@ -50,5 +51,28 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+    // Check if user has specific role
+    public function hasRole($roleName)
+    {
+        return $this->role && $this->role->name === $roleName;
+    }
 
+    // Check if user is an admin
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
+    }
+
+    // Check if user is a librarian
+    public function isLibrarian()
+    {
+        return $this->hasRole('librarian');
+    }
+
+    // Check if user is a student
+    public function isStudent()
+    {
+        return $this->hasRole('student');
+    }
+    
 }

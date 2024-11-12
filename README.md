@@ -64,3 +64,57 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## 
+
+```sh
+pnpm install && pnpm run build
+composer run dev
+```
+
+## 
+
+```sh
+php artisan migrate
+```
+
+## 
+
+```sh
+composer require laravel/breeze --dev
+php artisan breeze:install
+pnpm install
+```
+
+## 
+
+```sh
+php artisan make:model Role -m
+```
+
+## 
+
+```sh
+php artisan make:factory RoleFactory --model=Role
+```
+
+## 
+
+```sh
+php artisan make:seeder RoleSeeder
+```
+
+## 
+
+```sh
+php artisan db:seed --class=RoleSeeder
+```
+
+##
+
+```sh
+php artisan config:cache
+php artisan optimize:clear
+composer dump-autoload
+```

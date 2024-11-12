@@ -31,7 +31,7 @@ class CategoryController extends Controller
         $query->orderBy($sortColumn, $sortDirection);
 
         // Paginate the results
-        $categories = $query->paginate(10);
+        $categories = $query->paginate(15);
 
         return view('categories.index', compact('categories', 'sortColumn', 'sortDirection'));
     }

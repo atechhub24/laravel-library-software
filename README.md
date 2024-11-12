@@ -141,6 +141,15 @@ php artisan make:view categories.edit
 php artisan make:view categories.create
 ```
 
+## 
+
+```sh
+php artisan make:view authors.index
+php artisan make:view authors.edit
+php artisan make:view authors.create
+php artisan make:view authors.upload
+```
+
 ##
 
 ```sh

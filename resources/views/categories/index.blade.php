@@ -1,8 +1,21 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Categories') }}
-        </h2>
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Categories') }}
+            </h2>
+
+            @if (auth()->user()->role->name !== 'student')
+                <div class="flex space-x-4">
+                    <a href="{{ route('categories.create') }}" class="bg-green-500 text-white px-4 py-2 rounded-lg">
+                        Add New Category
+                    </a>
+                    <a href="{{ route('categories.upload') }}" class="bg-purple-500 text-white px-4 py-2 rounded-lg">
+                        Upload Categories
+                    </a>
+                </div>
+            @endif
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -13,7 +26,7 @@
                 </div>
             @endif
 
-            <!-- Search, Sort, and Action Buttons -->
+            <!-- Search, Sort, and Filter Form -->
             <form method="GET" action="{{ route('categories.index') }}"
                 class="mb-4 flex flex-col sm:flex-row items-center gap-4">
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search categories..."
@@ -38,14 +51,6 @@
 
                 <button type="submit"
                     class="bg-blue-500 text-white px-4 py-2 rounded-lg w-full sm:w-auto">Filter</button>
-
-                <!-- Add and Upload Buttons for Admin/Librarian Only -->
-                @if (auth()->user()->role->name !== 'student')
-                    <a href="{{ route('categories.create') }}"
-                        class="bg-green-500 text-white px-4 py-2 rounded-lg inline-block">Add New Category</a>
-                    <a href="{{ route('categories.upload') }}"
-                        class="bg-purple-500 text-white px-4 py-2 rounded-lg inline-block">Upload Categories</a>
-                @endif
             </form>
 
             <!-- Categories Card View -->

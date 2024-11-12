@@ -8,10 +8,32 @@ use Illuminate\Support\Facades\Auth;
 class CategoryController extends Controller
 {
     // Display all categories for all users
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::all();
-        return view('categories.index', compact('categories'));
+        $query = Category::query();
+
+        // Apply search filter if present
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('description', 'like', '%' . $request->search . '%');
+        }
+
+        // Apply sorting by column and direction if present
+        $sortColumn = $request->input('sort', 'name');
+        $sortDirection = $request->input('direction', 'asc');
+        
+        // Whitelist allowed sorting columns
+        $allowedSortColumns = ['name', 'description', 'created_at', 'updated_at'];
+        if (!in_array($sortColumn, $allowedSortColumns)) {
+            $sortColumn = 'name';
+        }
+
+        $query->orderBy($sortColumn, $sortDirection);
+
+        // Paginate the results
+        $categories = $query->paginate(10);
+
+        return view('categories.index', compact('categories', 'sortColumn', 'sortDirection'));
     }
 
     // Show the form for creating a new category (only for admin and librarian)

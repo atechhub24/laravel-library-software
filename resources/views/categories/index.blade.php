@@ -13,9 +13,7 @@
                 </div>
             @endif
 
-
-
-            <!-- Search and Sort Form -->
+            <!-- Search, Sort, and Action Buttons -->
             <form method="GET" action="{{ route('categories.index') }}"
                 class="mb-4 flex flex-col sm:flex-row items-center gap-4">
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search categories..."
@@ -41,9 +39,12 @@
                 <button type="submit"
                     class="bg-blue-500 text-white px-4 py-2 rounded-lg w-full sm:w-auto">Filter</button>
 
+                <!-- Add and Upload Buttons for Admin/Librarian Only -->
                 @if (auth()->user()->role->name !== 'student')
                     <a href="{{ route('categories.create') }}"
                         class="bg-green-500 text-white px-4 py-2 rounded-lg inline-block">Add New Category</a>
+                    <a href="{{ route('categories.upload') }}"
+                        class="bg-purple-500 text-white px-4 py-2 rounded-lg inline-block">Upload Categories</a>
                 @endif
             </form>
 
@@ -54,7 +55,8 @@
                         class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition transform hover:scale-105">
                         <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ $category->name }}</h3>
                         <p class="text-gray-600 dark:text-gray-400 mt-2">
-                            {{ $category->description ?? 'No description available' }}</p>
+                            {{ $category->description ?? 'No description available' }}
+                        </p>
 
                         <div class="flex justify-between items-center mt-4 text-sm text-gray-500 dark:text-gray-400">
                             <div>Created: {{ $category->created_at->format('Y-m-d') }}</div>

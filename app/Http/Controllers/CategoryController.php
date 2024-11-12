@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,6 +84,55 @@ class CategoryController extends Controller
         $category->delete();
         return redirect()->route('categories.index')->with('status', 'Category deleted successfully.');
     }
+
+     // Display the CSV upload form
+     public function showUploadForm()
+     {
+         $this->authorizeAdminOrLibrarian();
+         return view('categories.upload');
+     }
+ 
+     // Handle CSV file upload
+     public function uploadCsv(Request $request)
+     {
+         $this->authorizeAdminOrLibrarian();
+ 
+         // Validate the uploaded file
+         $request->validate([
+             'csv_file' => 'required|file|mimes:csv,txt|max:2048',
+         ]);
+ 
+         // Open and read the CSV file
+         if (($handle = fopen($request->file('csv_file'), 'r')) !== false) {
+             // Skip the header row
+             fgetcsv($handle);
+ 
+             // Process each row in the CSV
+             while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+                 // Validate each row's data
+                 $validator = Validator::make([
+                     'name' => $data[0],
+                     'description' => $data[1],
+                 ], [
+                     'name' => 'required|unique:categories,name',
+                     'description' => 'nullable|string',
+                 ]);
+ 
+                 if ($validator->fails()) {
+                     continue; // Skip invalid rows
+                 }
+ 
+                 // Insert valid row into the database
+                 Category::create([
+                     'name' => $data[0],
+                     'description' => $data[1],
+                 ]);
+             }
+             fclose($handle);
+         }
+ 
+         return redirect()->route('categories.index')->with('status', 'Categories uploaded successfully.');
+     }
 
     // Helper function to authorize admin and librarian users
     protected function authorizeAdminOrLibrarian()

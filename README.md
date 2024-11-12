@@ -118,3 +118,9 @@ php artisan config:cache
 php artisan optimize:clear
 composer dump-autoload
 ```
+
+## 
+
+```sh
+php artisan make:migration add_role_id_to_users_table --table=users
+```

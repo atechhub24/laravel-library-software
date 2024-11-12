@@ -144,5 +144,6 @@ php artisan make:view categories.create
 ##
 
 ```sh
-php artisan make:middleware RoleMiddleware
+php artisan make:model Author -mfs
 ```
+

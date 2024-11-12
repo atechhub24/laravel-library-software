@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -16,6 +17,18 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    // User related routes, restricted to admin only
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    // Create a new user (create route)
+    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+    // Store the new user (store route)
+    Route::post('users', [UserController::class, 'store'])->name('users.store');
+    // Edit user (edit route)
+    Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    // Update user (update route)
+    Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
+    // Delete user (destroy route)
+    Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
     // Profile related routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -31,19 +44,11 @@ Route::middleware('auth')->group(function () {
     Route::get('authors/upload', [AuthorController::class, 'showUploadForm'])->name('authors.upload');
     Route::post('authors/upload', [AuthorController::class, 'upload'])->name('authors.upload.post');
     Route::resource('authors', AuthorController::class);
-
-    // User related routes, restricted to admin only
-    Route::get('users', [UserController::class, 'index'])->name('users.index');
-    // Create a new user (create route)
-    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
-    // Store the new user (store route)
-    Route::post('users', [UserController::class, 'store'])->name('users.store');
-    // Edit user (edit route)
-    Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    // Update user (update route)
-    Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
-    // Delete user (destroy route)
-    Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+   
+    // Books related routes
+    Route::get('books/upload', [BookController::class, 'showUploadForm'])->name('books.upload');
+    Route::post('books/upload', [BookController::class, 'upload'])->name('books.upload.post');
+    Route::resource('books', BookController::class);
 });
 
 require __DIR__.'/auth.php';

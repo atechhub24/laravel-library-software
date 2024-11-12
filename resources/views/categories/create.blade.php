@@ -6,17 +6,21 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
             <form method="POST" action="{{ route('categories.store') }}">
                 @csrf
                 <div class="mb-4">
-                    <label for="name" class="block text-gray-700">Category Name:</label>
-                    <input type="text" id="name" name="name" class="w-full border-gray-300 rounded-lg"
+                    <label for="name" class="block text-gray-800 dark:text-gray-200 font-semibold mb-2">Category
+                        Name:</label>
+                    <input type="text" id="name" name="name"
+                        class="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-lg px-4 py-2 w-full"
                         required>
                 </div>
                 <div class="mb-4">
-                    <label for="description" class="block text-gray-700">Description:</label>
-                    <textarea id="description" name="description" class="w-full border-gray-300 rounded-lg"></textarea>
+                    <label for="description"
+                        class="block text-gray-800 dark:text-gray-200 font-semibold mb-2">Description:</label>
+                    <textarea id="description" name="description"
+                        class="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-lg px-4 py-2 w-full"></textarea>
                 </div>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Create Category</button>
             </form>

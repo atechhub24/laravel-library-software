@@ -10,11 +10,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Dashboard route, viewable by any authenticated user
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::middleware('auth')->group(function () {
-    // Dashboard route, viewable by any authenticated user
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
 
     // Profile related routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -32,23 +33,17 @@ Route::middleware('auth')->group(function () {
     Route::resource('authors', AuthorController::class);
 
     // User related routes, restricted to admin only
-        // Display all users (index route)
-        Route::get('users', [UserController::class, 'index'])->name('users.index');
-        
-        // Create a new user (create route)
-        Route::get('users/create', [UserController::class, 'create'])->name('users.create');
-        
-        // Store the new user (store route)
-        Route::post('users', [UserController::class, 'store'])->name('users.store');
-        
-        // Edit user (edit route)
-        Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-        
-        // Update user (update route)
-        Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
-        
-        // Delete user (destroy route)
-        Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    // Create a new user (create route)
+    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+    // Store the new user (store route)
+    Route::post('users', [UserController::class, 'store'])->name('users.store');
+    // Edit user (edit route)
+    Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    // Update user (update route)
+    Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
+    // Delete user (destroy route)
+    Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 });
 
 require __DIR__.'/auth.php';

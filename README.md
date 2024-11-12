@@ -126,3 +126,23 @@ composer dump-autoload
 ```sh
 php artisan make:migration add_role_id_to_users_table --table=users
 ```
+
+##
+
+```sh
+php artisan make:controller CategoryController
+```
+
+## 
+
+```sh
+php artisan make:view categories.index
+php artisan make:view categories.edit
+php artisan make:view categories.create
+```
+
+##
+
+```sh
+php artisan make:middleware RoleMiddleware
+```

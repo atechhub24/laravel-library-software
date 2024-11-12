@@ -150,9 +150,19 @@ php artisan make:view authors.create
 php artisan make:view authors.upload
 ```
 
+## 
+
+```sh
+php artisan make:view books.index
+php artisan make:view books.edit
+php artisan make:view books.create
+php artisan make:view books.upload
+```
+
 ##
 
 ```sh
 php artisan make:model Author -mfs
+php artisan make:model Book -mfs
 ```
 

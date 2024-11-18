@@ -20,6 +20,36 @@
                             {{ session('success') }}
                         </div>
                     @endif
+
+                    <!-- Search and Sorting -->
+                    <form method="GET" action="{{ route('issues.index') }}" class="mb-6 flex gap-4">
+                        <!-- Search Bar -->
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Search by book title or user name..."
+                            class="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-lg px-4 py-2 w-full sm:w-1/3">
+
+                        <!-- Sort Column -->
+                        <select name="sort"
+                            class="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-lg px-4 py-2">
+                            <option value="issue_date" {{ request('sort') == 'issue_date' ? 'selected' : '' }}>Issue
+                                Date</option>
+                            <option value="due_date" {{ request('sort') == 'due_date' ? 'selected' : '' }}>Due Date
+                            </option>
+                            <option value="return_date" {{ request('sort') == 'return_date' ? 'selected' : '' }}>Return
+                                Date</option>
+                        </select>
+
+                        <!-- Sort Direction -->
+                        <select name="direction"
+                            class="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-lg px-4 py-2">
+                            <option value="asc" {{ request('direction') == 'asc' ? 'selected' : '' }}>Ascending
+                            </option>
+                            <option value="desc" {{ request('direction') == 'desc' ? 'selected' : '' }}>Descending
+                            </option>
+                        </select>
+
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Filter</button>
+                    </form>
                     <table class="w-full table-auto">
                         <thead>
                             <tr class="text-left text-gray-600 dark:text-gray-400">
@@ -59,6 +89,10 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <!-- Pagination Links -->
+                    <div class="mt-6">
+                        {{ $issues->links() }}
+                    </div>
                 </div>
             </div>
         </div>

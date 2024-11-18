@@ -11,10 +11,29 @@ use Carbon\Carbon;
 class IssueController extends Controller
 {
     // Display a list of all issued books
-    public function index()
+    public function index(Request $request)
     {
-        $issues = Issue::with('user', 'book')->get();
-        return view('issues.index', compact('issues'));
+        $query = Issue::with('user', 'book');
+    
+        // Search by book title or user name
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->whereHas('book', function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%');
+            })->orWhereHas('user', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            });
+        }
+    
+        // Sorting
+        $sortColumn = $request->input('sort', 'issue_date');
+        $sortDirection = $request->input('direction', 'asc');
+        $query->orderBy($sortColumn, $sortDirection);
+    
+        // Pagination
+        $issues = $query->paginate(10)->appends($request->all());
+    
+        return view('issues.index', compact('issues', 'sortColumn', 'sortDirection'));
     }
 
     // Show the form for issuing a new book

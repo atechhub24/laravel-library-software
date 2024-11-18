@@ -42,7 +42,7 @@ class IssueController extends Controller
         $users = User::whereHas('role', function ($query) {
             $query->where('name', 'student');
         })->get();
-        $books = Book::all();
+        $books = Book::where('status', 'available')->get();
         return view('issues.create', compact('users', 'books'));
     }
 

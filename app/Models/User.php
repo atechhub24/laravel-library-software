@@ -74,5 +74,10 @@ class User extends Authenticatable
     {
         return $this->hasRole('student');
     }
-    
+    // All the issued books by the user
+    public function issues()
+    {
+        return $this->hasMany(Issue::class);
+    }
+
 }

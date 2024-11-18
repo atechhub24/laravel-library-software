@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\IssueController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,17 @@ Route::middleware('auth')->group(function () {
     Route::get('books/upload', [BookController::class, 'showUploadForm'])->name('books.upload');
     Route::post('books/upload', [BookController::class, 'upload'])->name('books.upload.post');
     Route::resource('books', BookController::class);
+
+    // Route to show the form to issue a book
+    Route::get('issues/create', [IssueController::class, 'create'])->name('issues.create');
+    // Route to store the issued book data
+    Route::post('issues', [IssueController::class, 'store'])->name('issues.store');
+    // Route to show all issued books
+    Route::get('issues', [IssueController::class, 'index'])->name('issues.index');
+    // Route to return a book and update the issue record
+    Route::post('issues/{id}/return', [IssueController::class, 'returnBook'])->name('issues.return');
+    // Route to view details of a specific issue
+    Route::get('issues/{id}', [IssueController::class, 'show'])->name('issues.show');
 });
 
 require __DIR__.'/auth.php';

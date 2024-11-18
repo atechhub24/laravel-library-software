@@ -10,7 +10,7 @@ class Book extends Model
     /** @use HasFactory<\Database\Factories\BookFactory> */
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'published_date'];
+    protected $fillable = ['title', 'description', 'published_date', 'status'];
 
     public function authors()
     {
@@ -27,4 +27,13 @@ class Book extends Model
         return $this->hasMany(Issue::class);
     }
 
+    public function isAvailable(): bool
+    {
+        return $this->status === 'available';
+    }
+    
+    public function isIssued(): bool
+    {
+        return $this->status === 'issued';
+    }
 }

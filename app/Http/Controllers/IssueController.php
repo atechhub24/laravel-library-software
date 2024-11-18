@@ -37,6 +37,14 @@ class IssueController extends Controller
             'due_date' => 'required|date|after:issue_date',
         ]);
 
+        $book = Book::findOrFail($request->book_id);
+
+        if ($book->isIssued()) {
+            return redirect()->back()->withErrors(['book_id' => 'This book is already issued.']);
+        }
+
+        $book->update(['status' => 'issued']);
+
         Issue::create([
             'user_id' => $request->user_id,
             'book_id' => $request->book_id,
@@ -46,6 +54,7 @@ class IssueController extends Controller
 
         return redirect()->route('issues.index')->with('success', 'Book issued successfully.');
     }
+
 
     // Display details of a specific issue
     public function show($id)
@@ -69,6 +78,8 @@ class IssueController extends Controller
         }
 
         $issue->save();
+
+        $issue->book->update(['status' => 'available']);
 
         return redirect()->route('issues.index')->with('success', 'Book returned successfully with a fine of ' . $issue->fine_amount . ' currency units.');
     }

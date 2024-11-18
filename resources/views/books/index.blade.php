@@ -53,6 +53,7 @@
                             <th class="px-6 py-3 text-left">Title</th>
                             <th class="px-6 py-3 text-left">Authors</th>
                             <th class="px-6 py-3 text-left">Categories</th>
+                            <th class="px-6 py-3 text-left">Availability</th>
                             <th class="px-6 py-3 text-left">Created At</th>
                             <th class="px-6 py-3 text-left">Actions</th>
                         </tr>
@@ -63,6 +64,13 @@
                                 <td class="px-6 py-4">{{ $book->title }}</td>
                                 <td class="px-6 py-4">{{ $book->authors->pluck('name')->join(', ') }}</td>
                                 <td class="px-6 py-4">{{ $book->categories->pluck('name')->join(', ') }}</td>
+                                <td class="px-6 py-4">
+                                    @if ($book->isAvailable())
+                                        <span class="text-green-500 font-semibold">Available</span>
+                                    @else
+                                        <span class="text-red-500 font-semibold">Issued</span>
+                                    @endif
+                                </td>
                                 <td class="px-6 py-4">{{ $book->created_at->format('Y-m-d') }}</td>
                                 <td class="px-6 py-4">
                                     <a href="{{ route('books.edit', $book) }}"

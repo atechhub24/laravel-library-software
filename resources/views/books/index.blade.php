@@ -66,13 +66,14 @@
                                 <td class="px-6 py-4">{{ $book->categories->pluck('name')->join(', ') }}</td>
                                 <td class="px-6 py-4">
                                     @if ($book->isAvailable())
-                                        <span class="text-green-500 font-semibold">Available</span>
+                                        <a href="{{ route('issues.create', ['book_id' => $book->id]) }}"
+                                            class="text-green-500 hover:text-green-700">Issue Book</a>
                                     @else
                                         <span class="text-red-500 font-semibold">Issued</span>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">{{ $book->created_at->format('Y-m-d') }}</td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 flex space-x-2">
                                     <a href="{{ route('books.edit', $book) }}"
                                         class="text-blue-500 hover:text-blue-700">Edit</a>
                                     <form action="{{ route('books.destroy', $book) }}" method="POST"
@@ -82,6 +83,7 @@
                                         <button type="submit" class="text-red-500 hover:text-red-700"
                                             onclick="return confirm('Are you sure?')">Delete</button>
                                     </form>
+
                                 </td>
                             </tr>
                         @endforeach

@@ -37,7 +37,7 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 dark:bg-gray-900 dark:border-gray-700">
                                 @foreach ($books as $book)
                                     <option value="{{ $book->id }}"
-                                        {{ old('book_id') == $book->id ? 'selected' : '' }}>
+                                        {{ isset($selectedBook) && $selectedBook->id == $book->id ? 'selected' : '' }}>
                                         {{ $book->title }}
                                     </option>
                                 @endforeach

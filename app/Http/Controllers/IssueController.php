@@ -37,13 +37,18 @@ class IssueController extends Controller
     }
 
     // Show the form for issuing a new book
-    public function create()
+    public function create(Request $request)
     {
         $users = User::whereHas('role', function ($query) {
             $query->where('name', 'student');
         })->get();
+
         $books = Book::where('status', 'available')->get();
-        return view('issues.create', compact('users', 'books'));
+
+        // Pre-select book if book_id is provided
+        $selectedBook = $request->query('book_id') ? Book::find($request->query('book_id')) : null;
+
+        return view('issues.create', compact('users', 'books', 'selectedBook'));
     }
 
     // Store the newly issued book record in the database
